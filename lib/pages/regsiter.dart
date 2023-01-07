@@ -1,36 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:tuna_rungu_apps/pages/home.dart';
-import 'package:tuna_rungu_apps/pages/regsiter.dart';
+import 'package:iconsax/iconsax.dart';
 
-Route _createRoute() {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) =>
-        const RegisterPage(),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(1.0, 0.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
-  );
-}
-
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
+  final namaController = TextEditingController();
   final emailController = TextEditingController();
-
   final passwordController = TextEditingController();
 
   var _isObscure = true;
@@ -48,51 +29,102 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Container(
                   color: const Color(0xFFFFF4D2),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 24, bottom: 16),
-                    child: SafeArea(
-                      child: Center(
-                        child: Column(
-                          children: const [
-                            Image(
-                              image: AssetImage('assets/images/logo.png'),
-                              height: 120,
-                              width: 120,
-                            ),
-                            Text(
-                              "Selamat datang",
-                              style: TextStyle(
-                                color: Color(0xFF1D2939),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 24,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "Mulai belajar bahasa isyarat",
-                              style: TextStyle(
-                                color: Color(0xFF667085),
-                                fontSize: 16,
-                              ),
-                            ),
-                          ],
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  child: SafeArea(
+                    child: Row(
+                      children: [
+                        IconButton(
+                          iconSize: 24,
+                          padding: const EdgeInsets.all(0),
+                          alignment: Alignment.centerLeft,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            Iconsax.arrow_left,
+                          ),
+                          color: const Color(0xFF475467),
                         ),
-                      ),
+                        const Text(
+                          "Kembali",
+                          style: TextStyle(
+                            color: Color(0xFF475467),
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 32,
-                ),
                 Expanded(
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+                    padding: const EdgeInsets.only(
+                        left: 16, right: 16, bottom: 16, top: 32),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const Text(
+                          "Daftar",
+                          style: TextStyle(
+                            color: Color(0xFF1D2939),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
+                        const Text(
+                          "Harap memasukkan email yang aktif",
+                          style: TextStyle(
+                            color: Color(0xFF667085),
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 32,
+                        ),
+                        const Text(
+                          "Nama",
+                          style: TextStyle(
+                            color: Color(0xFF344054),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 6,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: const Color(0xFFD0D5DD),
+                            ),
+                            color: Colors.white,
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color.fromRGBO(16, 24, 40, 0.05),
+                                blurRadius: 2,
+                                offset: Offset(0, 1),
+                              ),
+                            ],
+                          ),
+                          child: TextField(
+                            style: const TextStyle(fontSize: 16),
+                            controller: namaController,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: "Nama",
+                              contentPadding: EdgeInsets.only(
+                                  left: 14, right: 14, top: 10, bottom: 10),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         const Text(
                           "Email",
                           style: TextStyle(
@@ -192,35 +224,9 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         Flexible(
                           child: Align(
-                            alignment: const Alignment(0, 1),
+                            alignment: const Alignment(0, 0.5),
                             child: InkWell(
-                              onTap: () {
-                                if (emailController.text == 'lingga' &&
-                                    passwordController.text == 'lingga') {
-                                  Navigator.pushReplacement(context,
-                                      MaterialPageRoute(builder: (context) {
-                                    return const HomePage();
-                                  }));
-                                } else {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        content: const Text(
-                                            'Username atau password salah'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: const Text('Back'),
-                                          )
-                                        ],
-                                      );
-                                    },
-                                  );
-                                }
-                              },
+                              onTap: () {},
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
@@ -237,7 +243,7 @@ class _LoginPageState extends State<LoginPage> {
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 10, horizontal: 16),
                                 child: const Text(
-                                  "Masuk",
+                                  "Daftar",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Colors.white,
@@ -248,24 +254,6 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                           ),
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text("Belum punya akun?"),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).push(_createRoute());
-                              },
-                              child: const Text(
-                                "Daftar",
-                                style: TextStyle(
-                                  color: Color(0xFF0589D6),
-                                ),
-                              ),
-                            ),
-                          ],
                         ),
                       ],
                     ),

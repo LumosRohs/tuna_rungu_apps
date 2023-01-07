@@ -110,62 +110,64 @@ class HurufdanAngkaContainer extends StatelessWidget {
             onTap: () => showDialog(
               context: context,
               builder: (BuildContext context) => AlertDialog(
-                content: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Image(
-                      fit: BoxFit.fill,
-                      image: AssetImage(
-                          'assets/images/image-dummy.png'), // ganti disini myList[index]["url"]
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Text(
-                      myList[index]["name"],
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: Color(0xFF1D2939),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                content: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Image(
+                        fit: BoxFit.fill,
+                        image: AssetImage(
+                            'assets/images/image-dummy.png'), // ganti disini myList[index]["url"]
                       ),
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: const Color(0xFFFFFFFF),
-                          border: Border.all(
-                            color: const Color(0xFFD0D5DD),
-                          ),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Color.fromRGBO(16, 24, 40, 0.05),
-                              blurRadius: 2,
-                              offset: Offset(0, 1),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      Text(
+                        myList[index]["name"],
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Color(0xFF1D2939),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 24,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: const Color(0xFFFFFFFF),
+                            border: Border.all(
+                              color: const Color(0xFFD0D5DD),
                             ),
-                          ],
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 14),
-                        child: const Text(
-                          "Keluar",
-                          style: TextStyle(
-                            color: Color(0xFF344054),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color.fromRGBO(16, 24, 40, 0.05),
+                                blurRadius: 2,
+                                offset: Offset(0, 1),
+                              ),
+                            ],
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 14),
+                          child: const Text(
+                            "Keluar",
+                            style: TextStyle(
+                              color: Color(0xFF344054),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

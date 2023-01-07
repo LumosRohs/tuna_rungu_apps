@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tuna_rungu_apps/pages/home.dart';
 import 'package:iconsax/iconsax.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -232,6 +231,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
                                   color: const Color(0xFFF5A21D),
+                                  border: Border.all(
+                                    color: const Color(0xFFF5A21D),
+                                  ),
                                   boxShadow: const [
                                     BoxShadow(
                                       color: Color.fromRGBO(16, 24, 40, 0.05),

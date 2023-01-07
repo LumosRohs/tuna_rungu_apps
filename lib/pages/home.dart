@@ -1,11 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:tuna_rungu_apps/pages/hurufangka.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:tuna_rungu_apps/pages/profile.dart';
 
 Route _createRoute() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) =>
         const HurufAngkaPage(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
+
+Route _createRouteProfile() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) =>
+        const ProfilePage(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(1.0, 0.0);
       const end = Offset.zero;
@@ -38,7 +58,7 @@ class HomePage extends StatelessWidget {
                   ),
                   color: Color(0xFFF5A21D)),
               child: Stack(
-                alignment: AlignmentDirectional.bottomEnd,
+                alignment: Alignment.bottomRight,
                 children: [
                   SafeArea(
                     child: Padding(
@@ -48,19 +68,25 @@ class HomePage extends StatelessWidget {
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Text(
+                            children: [
+                              const Text(
                                 "Halo, Lingga",
                                 style: TextStyle(
                                   color: Color(0xFFF2F4F7),
                                   fontSize: 16,
                                 ),
                               ),
-                              CircleAvatar(
-                                backgroundColor: Color(0xFFFFFCF2),
-                                foregroundColor: Color(0xFFDB8818),
-                                child: Text('LR'),
-                              )
+                              InkWell(
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .push(_createRouteProfile());
+                                },
+                                child: const CircleAvatar(
+                                  backgroundColor: Color(0xFFFFFCF2),
+                                  foregroundColor: Color(0xFFDB8818),
+                                  child: Text('LR'),
+                                ),
+                              ),
                             ],
                           ),
                           const SizedBox(
@@ -84,14 +110,10 @@ class HomePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Positioned(
-                    right: -8,
-                    bottom: -16,
-                    child: Image(
-                      image: AssetImage('assets/images/reading-book.png'),
-                      height: 220,
-                      width: 220,
-                    ),
+                  const Image(
+                    image: AssetImage('assets/images/reading-book.png'),
+                    height: 106,
+                    width: 185,
                   ),
                 ],
               ),
@@ -231,6 +253,9 @@ class HomePage extends StatelessWidget {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(12),
                                         color: const Color(0xFFF5A21D),
+                                        border: Border.all(
+                                          color: const Color(0xFFF5A21D),
+                                        ),
                                         boxShadow: const [
                                           BoxShadow(
                                             color: Color.fromRGBO(
@@ -342,6 +367,9 @@ class HomePage extends StatelessWidget {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(12),
                                         color: const Color(0xFFF5A21D),
+                                        border: Border.all(
+                                          color: const Color(0xFFF5A21D),
+                                        ),
                                         boxShadow: const [
                                           BoxShadow(
                                             color: Color.fromRGBO(
@@ -457,6 +485,9 @@ class HomePage extends StatelessWidget {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(12),
                                         color: const Color(0xFFF5A21D),
+                                        border: Border.all(
+                                          color: const Color(0xFFF5A21D),
+                                        ),
                                         boxShadow: const [
                                           BoxShadow(
                                             color: Color.fromRGBO(
@@ -568,6 +599,9 @@ class HomePage extends StatelessWidget {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(12),
                                         color: const Color(0xFFF5A21D),
+                                        border: Border.all(
+                                          color: const Color(0xFFF5A21D),
+                                        ),
                                         boxShadow: const [
                                           BoxShadow(
                                             color: Color.fromRGBO(

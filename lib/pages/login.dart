@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tuna_rungu_apps/pages/home.dart';
-import 'package:tuna_rungu_apps/pages/regsiter.dart';
+import 'package:tuna_rungu_apps/pages/register.dart';
 
 Route _createRoute() {
   return PageRouteBuilder(
@@ -226,6 +226,9 @@ class _LoginPageState extends State<LoginPage> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
                                   color: const Color(0xFFF5A21D),
+                                  border: Border.all(
+                                    color: const Color(0xFFF5A21D),
+                                  ),
                                   boxShadow: const [
                                     BoxShadow(
                                       color: Color.fromRGBO(16, 24, 40, 0.05),

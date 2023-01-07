@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Poppins',
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: const Color(0xFFF5A21D),
-          secondary: const Color(0xFFF48143),
+          secondary: const Color(0xFFFFF4D2),
         ),
       ),
       home: const LoginPage(),

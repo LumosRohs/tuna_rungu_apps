@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Poppins',
         colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: const Color(0xFFCA6027),
+          primary: const Color(0xFFF5A21D),
           secondary: const Color(0xFFF48143),
         ),
       ),

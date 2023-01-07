@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tuna_rungu_apps/pages/hurufangka.dart';
+import 'package:iconsax/iconsax.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -7,123 +8,594 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF9E9D1),
+      backgroundColor: const Color(0xFFF9FAFB),
       body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding:
-                const EdgeInsets.only(left: 32, right: 32, top: 42, bottom: 42),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
-                  "Halo, Lingga",
-                  style: TextStyle(
-                    color: Color(0xFFCA6027),
-                    fontWeight: FontWeight.w500,
+        child: Column(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(24),
                   ),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                SizedBox(
-                  width: 200,
-                  child: Text(
-                    "Ayo belajar bahasa isyarat",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 24,
-                        height: 1.3,
-                        color: Color(0xFFCA6027)),
+                  color: Color(0xFFF5A21D)),
+              child: Stack(
+                alignment: AlignmentDirectional.bottomEnd,
+                children: [
+                  SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: const [
+                              Text(
+                                "Halo, Lingga",
+                                style: TextStyle(
+                                  color: Color(0xFFF2F4F7),
+                                  fontSize: 16,
+                                ),
+                              ),
+                              CircleAvatar(
+                                backgroundColor: Color(0xFFFFFCF2),
+                                foregroundColor: Color(0xFFDB8818),
+                                child: Text('LR'),
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const SizedBox(
+                            width: 200,
+                            child: Text(
+                              "Ayo belajar bahasa isyarat",
+                              style: TextStyle(
+                                color: Color(0xFFFCFCFD),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 24,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 32,
-                ),
-                KelasBox(
-                  title: "Huruf dan Angka",
-                  subtitle:
-                      "Belajar bahasa isyarat huruf dan angka dengan gambar tutorial",
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                KelasBox(
-                  title: "Huruf dan Angka",
-                  subtitle:
-                      "Belajar bahasa isyarat huruf dan angka dengan gambar tutorial",
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                KelasBox(
-                  title: "Huruf dan Angka",
-                  subtitle:
-                      "Belajar bahasa isyarat huruf dan angka dengan gambar tutorial",
-                ),
-              ],
+                  const Positioned(
+                    right: -8,
+                    bottom: -16,
+                    child: Image(
+                      image: AssetImage('assets/images/reading-book.png'),
+                      height: 220,
+                      width: 220,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class KelasBox extends StatelessWidget {
-  final String title, subtitle;
-  const KelasBox({Key? key, required this.title, required this.subtitle})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const HurufAngkaPage();
-        }));
-      },
-      child: Container(
-        height: 200,
-        width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-          color: Color(0xFFCA6027),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 200,
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 24,
-                      height: 1.3,
-                      color: Color(0xFFF9E9D1)),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(8),
+                  ),
+                  color: const Color(0xFFF1FEFE),
+                  border: Border.all(
+                    color: const Color(0xFFEAECF0),
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 21,
-              ),
-              SizedBox(
-                width: 140,
-                child: Text(
-                  subtitle,
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Color(0xFFFFFFFF),
-                    height: 1.3,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 16, top: 16, bottom: 16, right: 28),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 24,
+                        width: 24,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: const Color.fromRGBO(7, 177, 249, 0.4),
+                        ),
+                        child: const Center(
+                          child: Image(
+                            image: AssetImage('assets/images/info.png'),
+                            height: 9.75,
+                            width: 2,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text(
+                              "Kenapa belajar bahasa isyarat?",
+                              style: TextStyle(
+                                color: Color(0xFF1D2939),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 4,
+                            ),
+                            Text(
+                              "Karena dapat membantu seseorang terhubung dengan orang-orang yang tuli, meningkatkan empati dan keterbukaan",
+                              style: TextStyle(
+                                color: Color(0xFF475467),
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.white,
+                          border: Border.all(
+                            color: const Color(0xFFEAECF0),
+                          ),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color.fromRGBO(0, 0, 0, 0.02),
+                              blurRadius: 16,
+                              offset: Offset(0, 8),
+                            ),
+                          ]),
+                      child: Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: const Color(0xFFFFF4D2),
+                                    ),
+                                    padding: const EdgeInsets.all(8),
+                                    child: Column(
+                                      children: const [
+                                        Icon(
+                                          Iconsax.text_block5,
+                                          color:
+                                              Color.fromRGBO(219, 136, 24, 0.4),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  const SizedBox(
+                                    width: 100,
+                                    child: Text(
+                                      "Huruf dan Angka",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Color(0xFF1D2939),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  InkWell(
+                                    onTap: () {},
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: const Color(0xFFF5A21D),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Color.fromRGBO(
+                                                16, 24, 40, 0.05),
+                                            blurRadius: 2,
+                                            offset: Offset(0, 1),
+                                          ),
+                                        ],
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8, horizontal: 14),
+                                      child: const Text(
+                                        "Belajar",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 60,
+                            width: 60,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(12),
+                              ),
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment(0.5, 0.5),
+                                colors: [
+                                  Color.fromRGBO(255, 244, 210, 1),
+                                  Color.fromRGBO(255, 244, 210, 0),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.white,
+                          border: Border.all(
+                            color: const Color(0xFFEAECF0),
+                          ),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color.fromRGBO(0, 0, 0, 0.02),
+                              blurRadius: 16,
+                              offset: Offset(0, 8),
+                            ),
+                          ]),
+                      child: Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: const Color(0xFFFFF4D2),
+                                    ),
+                                    padding: const EdgeInsets.all(8),
+                                    child: Column(
+                                      children: const [
+                                        Icon(
+                                          Iconsax.note5,
+                                          color:
+                                              Color.fromRGBO(219, 136, 24, 0.4),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  const SizedBox(
+                                    width: 100,
+                                    child: Text(
+                                      "Kata Isyarat",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Color(0xFF1D2939),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  InkWell(
+                                    onTap: () {},
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: const Color(0xFFF5A21D),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Color.fromRGBO(
+                                                16, 24, 40, 0.05),
+                                            blurRadius: 2,
+                                            offset: Offset(0, 1),
+                                          ),
+                                        ],
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8, horizontal: 14),
+                                      child: const Text(
+                                        "Belajar",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 60,
+                            width: 60,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(12),
+                              ),
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment(0.5, 0.5),
+                                colors: [
+                                  Color.fromRGBO(255, 244, 210, 1),
+                                  Color.fromRGBO(255, 244, 210, 0),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 32),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.white,
+                          border: Border.all(
+                            color: const Color(0xFFEAECF0),
+                          ),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color.fromRGBO(0, 0, 0, 0.02),
+                              blurRadius: 16,
+                              offset: Offset(0, 8),
+                            ),
+                          ]),
+                      child: Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: const Color(0xFFFFF4D2),
+                                    ),
+                                    padding: const EdgeInsets.all(8),
+                                    child: Column(
+                                      children: const [
+                                        Icon(
+                                          Iconsax.message_question5,
+                                          color:
+                                              Color.fromRGBO(219, 136, 24, 0.4),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  const SizedBox(
+                                    width: 100,
+                                    child: Text(
+                                      "Tebak Kata",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Color(0xFF1D2939),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  InkWell(
+                                    onTap: () {},
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: const Color(0xFFF5A21D),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Color.fromRGBO(
+                                                16, 24, 40, 0.05),
+                                            blurRadius: 2,
+                                            offset: Offset(0, 1),
+                                          ),
+                                        ],
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8, horizontal: 14),
+                                      child: const Text(
+                                        "Belajar",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 60,
+                            width: 60,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(12),
+                              ),
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment(0.5, 0.5),
+                                colors: [
+                                  Color.fromRGBO(255, 244, 210, 1),
+                                  Color.fromRGBO(255, 244, 210, 0),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.white,
+                          border: Border.all(
+                            color: const Color(0xFFEAECF0),
+                          ),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color.fromRGBO(0, 0, 0, 0.02),
+                              blurRadius: 16,
+                              offset: Offset(0, 8),
+                            ),
+                          ]),
+                      child: Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: const Color(0xFFFFF4D2),
+                                    ),
+                                    padding: const EdgeInsets.all(8),
+                                    child: Column(
+                                      children: const [
+                                        Icon(
+                                          Iconsax.add_circle5,
+                                          color:
+                                              Color.fromRGBO(219, 136, 24, 0.4),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  const SizedBox(
+                                    width: 100,
+                                    child: Text(
+                                      "Tambah Kata",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Color(0xFF1D2939),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 16,
+                                  ),
+                                  InkWell(
+                                    onTap: () {},
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: const Color(0xFFF5A21D),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Color.fromRGBO(
+                                                16, 24, 40, 0.05),
+                                            blurRadius: 2,
+                                            offset: Offset(0, 1),
+                                          ),
+                                        ],
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8, horizontal: 14),
+                                      child: const Text(
+                                        "Belajar",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 60,
+                            width: 60,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(12),
+                              ),
+                              gradient: LinearGradient(
+                                begin: Alignment.topLeft,
+                                end: Alignment(0.5, 0.5),
+                                colors: [
+                                  Color.fromRGBO(255, 244, 210, 1),
+                                  Color.fromRGBO(255, 244, 210, 0),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

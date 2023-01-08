@@ -4,4 +4,6 @@ Flutter Project for college assingments.
 
 ## How to run
 
-- flutter pub get
+````
+flutter pub get
+````

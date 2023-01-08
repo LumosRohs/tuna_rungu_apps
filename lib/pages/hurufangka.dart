@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -97,126 +98,144 @@ class HurufdanAngkaContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-        scrollDirection: Axis.vertical,
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 250,
-            childAspectRatio: 3 / 4,
-            crossAxisSpacing: 20,
-            mainAxisSpacing: 10),
-        itemCount: myList.length,
-        itemBuilder: (BuildContext ctx, index) {
-          return InkWell(
-            onTap: () => showDialog(
-              context: context,
-              builder: (BuildContext context) => AlertDialog(
-                content: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Image(
-                        fit: BoxFit.fill,
-                        image: AssetImage(
-                            'assets/images/image-dummy.png'), // ganti disini myList[index]["url"]
-                      ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      Text(
-                        myList[index]["name"],
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Color(0xFF1D2939),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    CollectionReference hurufdanangka = db.collection('hurufdanangka');
+
+    return FutureBuilder<QuerySnapshot>(
+      future: hurufdanangka.get(),
+      builder: (_, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(child: Text('Loading events...'));
+        }
+        return GridView.builder(
+          scrollDirection: Axis.vertical,
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 250,
+              childAspectRatio: 3 / 4,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 10),
+          itemCount: snapshot.data!.docs.length,
+          itemBuilder: (BuildContext ctx, index) {
+            return InkWell(
+              onTap: () => showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  content: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image(
+                          fit: BoxFit.fill,
+                          image: snapshot.data?.docs[index]['url'] == ""
+                              ? const AssetImage(
+                                      'assets/images/image-dummy.png')
+                                  as ImageProvider
+                              : NetworkImage(snapshot.data?.docs[index]['url']),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: const Color(0xFFFFFFFF),
-                            border: Border.all(
-                              color: const Color(0xFFD0D5DD),
-                            ),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Color.fromRGBO(16, 24, 40, 0.05),
-                                blurRadius: 2,
-                                offset: Offset(0, 1),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        Text(
+                          snapshot.data?.docs[index]['name'],
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Color(0xFF1D2939),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: const Color(0xFFFFFFFF),
+                              border: Border.all(
+                                color: const Color(0xFFD0D5DD),
                               ),
-                            ],
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 14),
-                          child: const Text(
-                            "Keluar",
-                            style: TextStyle(
-                              color: Color(0xFF344054),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Color.fromRGBO(16, 24, 40, 0.05),
+                                  blurRadius: 2,
+                                  offset: Offset(0, 1),
+                                ),
+                              ],
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8, horizontal: 14),
+                            child: const Text(
+                              "Keluar",
+                              style: TextStyle(
+                                color: Color(0xFF344054),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12),
-                    ),
-                    border: Border.all(
-                      color: const Color(0xFFEAECF0),
-                    ),
-                  ),
-                  child: const Image(
-                    fit: BoxFit.fill,
-                    image: AssetImage(
-                        'assets/images/image-dummy.png'), // ganti disini myList[index]["url"]
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(12),
-                      bottomRight: Radius.circular(12),
-                    ),
-                    border: Border.all(
-                      color: const Color(0xFFEAECF0),
+              child: Column(
+                children: [
+                  Container(
+                    height: 170,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12),
+                      ),
+                      border: Border.all(
+                        color: const Color(0xFFEAECF0),
+                      ),
+                      image: DecorationImage(
+                        fit: BoxFit.scaleDown,
+                        image: snapshot.data?.docs[index]['url'] == ""
+                            ? const AssetImage('assets/images/image-dummy.png')
+                                as ImageProvider
+                            : NetworkImage(snapshot.data?.docs[index]['url']),
+                      ),
                     ),
                   ),
-                  child: Text(
-                    myList[index]["name"],
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Color(0xFF1D2939),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(12),
+                        bottomRight: Radius.circular(12),
+                      ),
+                      border: Border.all(
+                        color: const Color(0xFFEAECF0),
+                      ),
+                    ),
+                    child: Text(
+                      snapshot.data?.docs[index]['name'],
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Color(0xFF1D2939),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-              ],
-            ),
-          );
-        });
+                  const SizedBox(
+                    height: 16,
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 }

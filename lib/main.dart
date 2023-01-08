@@ -4,15 +4,12 @@ import 'package:tuna_rungu_apps/pages/login.dart';
 // Firebase
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   runApp(const MyApp());
 }

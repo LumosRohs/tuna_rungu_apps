@@ -12,6 +12,34 @@ class HurufAngkaPage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          // title: SafeArea(
+          //   child: Row(
+          //     children: [
+          //       IconButton(
+          //         iconSize: 24,
+          //         padding: const EdgeInsets.all(0),
+          //         alignment: Alignment.centerLeft,
+          //         onPressed: () {
+          //           Navigator.pop(context);
+          //         },
+          //         icon: const Icon(
+          //           Iconsax.arrow_left,
+          //         ),
+          //         color: const Color(0xFF475467),
+          //       ),
+          //       const Text(
+          //         "Kembali",
+          //         style: TextStyle(
+          //           color: Color(0xFF475467),
+          //           fontSize: 16,
+          //         ),
+          //       ),
+          //       const SizedBox(
+          //         height: 32,
+          //       ),
+          //     ],
+          //   ),
+          // ),
           bottom: const TabBar(
             tabs: [
               Tab(icon: Icon(Icons.directions_car)),
@@ -290,92 +318,14 @@ class AngkaContainer extends StatelessWidget {
               onTap: () => showDialog(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
-                  content: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image(
-                          fit: BoxFit.fill,
-                          image: snapshot.data?.docs[index]['link'] == ""
-                              ? const AssetImage(
-                                      'assets/images/image-dummy.png')
-                                  as ImageProvider
-                              : NetworkImage(
-                                  snapshot.data?.docs[index]['link']),
-                        ),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        Text(
-                          snapshot.data?.docs[index]['angka'],
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Color(0xFF1D2939),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 24,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: const Color(0xFFFFFFFF),
-                              border: Border.all(
-                                color: const Color(0xFFD0D5DD),
-                              ),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Color.fromRGBO(16, 24, 40, 0.05),
-                                  blurRadius: 2,
-                                  offset: Offset(0, 1),
-                                ),
-                              ],
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 14),
-                            child: const Text(
-                              "Keluar",
-                              style: TextStyle(
-                                color: Color(0xFF344054),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                  content: VideoPop(
+                    linkVideo: snapshot.data?.docs[index]['link'],
+                    namaVideo: snapshot.data?.docs[index]['angka'],
                   ),
                 ),
               ),
               child: Column(
                 children: [
-                  // Container(
-                  //   height: 170,
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: const BorderRadius.only(
-                  //       topLeft: Radius.circular(12),
-                  //       topRight: Radius.circular(12),
-                  //     ),
-                  //     border: Border.all(
-                  //       color: const Color(0xFFEAECF0),
-                  //     ),
-                  //     // image: DecorationImage(
-                  //     //   fit: BoxFit.scaleDown,
-                  //     //   image: snapshot.data?.docs[index]['link'] == ""
-                  //     //       ? const AssetImage('assets/images/image-dummy.png')
-                  //     //           as ImageProvider
-                  //     //       : NetworkImage(snapshot.data?.docs[index]['link']),
-                  //     // ),
-                  //   ),
-                  // ),
                   Video(linkVideo: snapshot.data?.docs[index]['link']),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.5,
@@ -433,36 +383,128 @@ class _VideoState extends State<Video> {
       setState(() {});
     });
     _controller.setLooping(false);
-    _controller.initialize().then((_) => setState(() {}));
+    _controller.initialize();
     _controller.play();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 170,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(12),
-            topRight: Radius.circular(12),
-          ),
-          border: Border.all(
-            color: const Color(0xFFEAECF0),
-          ),
-          // image: DecorationImage(
-          //   fit: BoxFit.scaleDown,
-          //   image: snapshot.data?.docs[index]['link'] == ""
-          //       ? const AssetImage('assets/images/image-dummy.png')
-          //           as ImageProvider
-          //       : NetworkImage(snapshot.data?.docs[index]['link']),
-          // ),
+      height: 170,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
         ),
-        child: Stack(
-          children: <Widget>[
-            VideoPlayer(_controller),
-            VideoProgressIndicator(_controller, allowScrubbing: true)
-          ],
-        ));
+        border: Border.all(
+          color: const Color(0xFFEAECF0),
+        ),
+      ),
+      child: Stack(
+        children: <Widget>[
+          VideoPlayer(_controller),
+        ],
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+}
+
+class VideoPop extends StatefulWidget {
+  final String linkVideo;
+  final String namaVideo;
+
+  const VideoPop({Key? key, required this.linkVideo, required this.namaVideo})
+      : super(key: key);
+
+  @override
+  State<VideoPop> createState() => _VideoPopState();
+}
+
+class _VideoPopState extends State<VideoPop> {
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.network(widget.linkVideo);
+
+    _controller.addListener(() {
+      setState(() {});
+    });
+    _controller.setLooping(true);
+    _controller.initialize();
+    _controller.play();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          AspectRatio(
+            aspectRatio: _controller.value.aspectRatio,
+            child: Stack(
+              children: <Widget>[
+                VideoPlayer(_controller),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          Text(
+            widget.namaVideo,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Color(0xFF1D2939),
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: const Color(0xFFFFFFFF),
+                border: Border.all(
+                  color: const Color(0xFFD0D5DD),
+                ),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color.fromRGBO(16, 24, 40, 0.05),
+                    blurRadius: 2,
+                    offset: Offset(0, 1),
+                  ),
+                ],
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+              child: const Text(
+                "Keluar",
+                style: TextStyle(
+                  color: Color(0xFF344054),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override

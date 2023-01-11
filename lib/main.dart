@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           secondary: const Color(0xFFFFF4D2),
         ),
       ),
-      home: const HurufAngkaPage(),
+      home: const LoginPage(),
     );
   }
 }

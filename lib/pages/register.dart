@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
+// Firebase
+import 'package:firebase_auth/firebase_auth.dart';
+
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
 
@@ -225,7 +228,13 @@ class _RegisterPageState extends State<RegisterPage> {
                           child: Align(
                             alignment: const Alignment(0, 0.5),
                             child: InkWell(
-                              onTap: () {},
+                              onTap: () => showDialog(
+                                context: context,
+                                builder: (BuildContext context) => Register(
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                ),
+                              ),
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
@@ -267,5 +276,61 @@ class _RegisterPageState extends State<RegisterPage> {
         ],
       ),
     );
+  }
+}
+
+class Register extends StatefulWidget {
+  final String email;
+  final String password;
+
+  const Register({Key? key, required this.email, required this.password})
+      : super(key: key);
+
+  @override
+  _RegisterState createState() => _RegisterState();
+}
+
+class _RegisterState extends State<Register> {
+  String _msg = "";
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _asyncMethod();
+    });
+  }
+
+  _asyncMethod() async {
+    try {
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: widget.email,
+        password: widget.password,
+      );
+
+      if (credential.additionalUserInfo?.isNewUser == true) {
+        setState(() {
+          _msg = "Account registered";
+        });
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        setState(() {
+          _msg = 'The password provided is too weak.';
+        });
+      } else if (e.code == 'email-already-in-use') {
+        setState(() {
+          _msg = 'The account already exists for that email.';
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(content: Text(_msg));
   }
 }

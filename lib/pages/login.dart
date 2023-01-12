@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tuna_rungu_apps/pages/home.dart';
 import 'package:tuna_rungu_apps/pages/register.dart';
 
+// Firebase
+import 'package:firebase_auth/firebase_auth.dart';
+
 Route _createRoute() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) =>
@@ -194,29 +197,37 @@ class _LoginPageState extends State<LoginPage> {
                           child: Align(
                             alignment: const Alignment(0, 1),
                             child: InkWell(
-                              onTap: () {
-                                if (emailController.text == 'lingga' &&
-                                    passwordController.text == 'lingga') {
-                                  Navigator.pushReplacement(context,
+                              onTap: () async {
+                                try {
+                                  final credential = await FirebaseAuth.instance
+                                      .signInWithEmailAndPassword(
+                                          email: emailController.text,
+                                          password: passwordController.text);
+
+                                  if (credential.user != null) {
+                                    print(credential.user);
+                                    // const LoginPopUp(msg: credential.user?.uid);
+                                    Navigator.pushReplacement(
+                                      context,
                                       MaterialPageRoute(builder: (context) {
-                                    return const HomePage();
-                                  }));
-                                } else {
+                                        return HomePage(
+                                          email:
+                                              credential.user?.email as String,
+                                          displayName:
+                                              credential.user?.displayName ==
+                                                      null
+                                                  ? "Guest"
+                                                  : credential.user?.displayName
+                                                      as String,
+                                        );
+                                      }),
+                                    );
+                                  }
+                                } on FirebaseAuthException catch (e) {
                                   showDialog(
                                     context: context,
                                     builder: (context) {
-                                      return AlertDialog(
-                                        content: const Text(
-                                            'Username atau password salah'),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: const Text('Back'),
-                                          )
-                                        ],
-                                      );
+                                      return LoginPopUp(msg: e.code);
                                     },
                                   );
                                 }
@@ -279,6 +290,31 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class LoginPopUp extends StatefulWidget {
+  final String msg;
+  const LoginPopUp({Key? key, required this.msg}) : super(key: key);
+
+  @override
+  State<LoginPopUp> createState() => _LoginPopUpState();
+}
+
+class _LoginPopUpState extends State<LoginPopUp> {
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: Text(widget.msg),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: const Text('Back'),
+        )
+      ],
     );
   }
 }

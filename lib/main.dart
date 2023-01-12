@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tuna_rungu_apps/pages/hurufangka.dart';
 import 'package:tuna_rungu_apps/pages/login.dart';
-import 'package:tuna_rungu_apps/pages/video.dart';
 
 // Firebase
 import 'package:firebase_core/firebase_core.dart';

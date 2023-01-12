@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class ProfilePage extends StatefulWidget {
+  final String displayName;
+  final String email;
 
+  const ProfilePage({Key? key, required this.email, required this.displayName})
+      : super(key: key);
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,9 +73,9 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              const Text(
-                "Lingga Rohadyan",
-                style: TextStyle(
+              Text(
+                widget.displayName,
+                style: const TextStyle(
                   color: Color(0xFF1D2939),
                   fontWeight: FontWeight.bold,
                   fontSize: 24,
@@ -75,9 +84,9 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
-              const Text(
-                "linggarohadyan46@gmail.com",
-                style: TextStyle(
+              Text(
+                widget.email,
+                style: const TextStyle(
                   color: Color(0xFF667085),
                   fontSize: 14,
                 ),

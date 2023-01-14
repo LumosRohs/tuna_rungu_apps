@@ -384,7 +384,7 @@ class _VideoState extends State<Video> {
     });
     _controller.setLooping(false);
     _controller.initialize();
-    _controller.play();
+    _controller.pause();
   }
 
   @override
@@ -400,10 +400,20 @@ class _VideoState extends State<Video> {
           color: const Color(0xFFEAECF0),
         ),
       ),
-      child: Stack(
-        children: <Widget>[
-          VideoPlayer(_controller),
-        ],
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
+        ),
+        child: AspectRatio(
+          aspectRatio: _controller.value.aspectRatio,
+          child: _controller.value.isInitialized
+              ? VideoPlayer(_controller)
+              : Transform.scale(
+                  scale: 0.3,
+                  child: const CircularProgressIndicator(),
+                ),
+        ),
       ),
     );
   }
@@ -450,13 +460,13 @@ class _VideoPopState extends State<VideoPop> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           AspectRatio(
-            aspectRatio: _controller.value.aspectRatio,
-            child: Stack(
-              children: <Widget>[
-                VideoPlayer(_controller),
-              ],
-            ),
-          ),
+              aspectRatio: _controller.value.aspectRatio,
+              child: _controller.value.isInitialized
+                  ? VideoPlayer(_controller)
+                  : Transform.scale(
+                      scale: 0.2,
+                      child: const CircularProgressIndicator(),
+                    )),
           const SizedBox(
             height: 24,
           ),

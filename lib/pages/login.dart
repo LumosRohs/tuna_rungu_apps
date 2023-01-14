@@ -205,7 +205,7 @@ class _LoginPageState extends State<LoginPage> {
                                           password: passwordController.text);
 
                                   if (credential.user != null) {
-                                    print(credential.user);
+                                    print(credential);
                                     // const LoginPopUp(msg: credential.user?.uid);
                                     Navigator.pushReplacement(
                                       context,
@@ -219,6 +219,11 @@ class _LoginPageState extends State<LoginPage> {
                                                   ? "Guest"
                                                   : credential.user?.displayName
                                                       as String,
+                                          photoUrl: credential.user?.photoURL ==
+                                                  null
+                                              ? "https://dummyimage.com/100x100/f5a21d/fff"
+                                              : credential.user?.photoURL
+                                                  as String,
                                         );
                                       }),
                                     );

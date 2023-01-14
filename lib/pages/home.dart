@@ -22,11 +22,12 @@ Route _createRoute() {
   );
 }
 
-Route _createRouteProfile(String displayName, String email) {
+Route _createRouteProfile(String displayName, String email, String photoURL) {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => ProfilePage(
       email: email,
       displayName: displayName,
+      photoURL: photoURL,
     ),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(1.0, 0.0);
@@ -46,8 +47,13 @@ Route _createRouteProfile(String displayName, String email) {
 class HomePage extends StatefulWidget {
   final String displayName;
   final String email;
+  final String photoUrl;
 
-  const HomePage({Key? key, required this.displayName, required this.email})
+  const HomePage(
+      {Key? key,
+      required this.displayName,
+      required this.email,
+      required this.photoUrl})
       : super(key: key);
 
   @override
@@ -93,12 +99,20 @@ class _HomePageState extends State<HomePage> {
                                       .push(_createRouteProfile(
                                     widget.displayName,
                                     widget.email,
+                                    widget.photoUrl,
                                   ));
                                 },
-                                child: const CircleAvatar(
-                                  backgroundColor: Color(0xFFFFFCF2),
-                                  foregroundColor: Color(0xFFDB8818),
-                                  child: Text('LR'),
+                                child: Container(
+                                  width: 50,
+                                  height: 50,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage(widget.photoUrl),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.elliptical(200, 200)),
+                                  ),
                                 ),
                               ),
                             ],

@@ -315,7 +315,7 @@ class _LoginPopUpState extends State<LoginPopUp> {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: const Text('Back'),
+          child: const Text('Kembali'),
         )
       ],
     );

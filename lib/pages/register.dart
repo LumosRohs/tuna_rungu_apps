@@ -1,8 +1,29 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
 // Firebase
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tuna_rungu_apps/pages/login.dart';
+
+Route _createRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => const LoginPage(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
@@ -320,17 +341,20 @@ class _RegisterState extends State<Register> {
 
       if (credential.additionalUserInfo?.isNewUser == true) {
         setState(() {
-          _msg = "Account registered";
+          _msg = "Akun terdaftar, silahkan tunggu beberapa detik...";
+          Timer(const Duration(seconds: 3), () {
+            Navigator.of(context).push(_createRoute());
+          });
         });
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         setState(() {
-          _msg = 'The password provided is too weak.';
+          _msg = 'Password yang dimasukkan lemah.';
         });
       } else if (e.code == 'email-already-in-use') {
         setState(() {
-          _msg = 'The account already exists for that email.';
+          _msg = 'Email sudah ada.';
         });
       }
     }

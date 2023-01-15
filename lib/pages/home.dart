@@ -75,6 +75,10 @@ class HomePage extends StatelessWidget {
       required this.photoURL})
       : super(key: key);
 
+  String getInitials(String displayName) => displayName.isNotEmpty
+      ? displayName.trim().split(RegExp(' +')).map((s) => s[0]).take(2).join()
+      : '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,8 +124,8 @@ class HomePage extends StatelessWidget {
                                   backgroundColor: const Color(0xFFFFFCF2),
                                   foregroundColor: const Color(0xFFDB8818),
                                   child: photoURL == ""
-                                      ? const Text(
-                                          'LR',
+                                      ? Text(
+                                          getInitials(displayName),
                                         )
                                       : Image.network(
                                           photoURL,

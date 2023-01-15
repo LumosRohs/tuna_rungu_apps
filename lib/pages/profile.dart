@@ -70,6 +70,10 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
+  String getInitials(String displayName) => displayName.isNotEmpty
+      ? displayName.trim().split(RegExp(' +')).map((s) => s[0]).take(2).join()
+      : '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -123,9 +127,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       backgroundColor: const Color(0xFFFFFCF2),
                       foregroundColor: const Color(0xFFDB8818),
                       child: widget.photoURL == ""
-                          ? const Text(
-                              'LR',
-                              style: TextStyle(
+                          ? Text(
+                              getInitials(widget.displayName),
+                              style: const TextStyle(
                                 color: Color(0xFFDB8818),
                                 fontSize: 48,
                                 fontWeight: FontWeight.w500,

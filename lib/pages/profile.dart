@@ -6,6 +6,25 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
+import 'package:tuna_rungu_apps/pages/login.dart';
+
+Route _createRouteLogin() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => const LoginPage(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
 
 class ProfilePage extends StatefulWidget {
   final String displayName;
@@ -68,6 +87,10 @@ class _ProfilePageState extends State<ProfilePage> {
         await user.updatePassword(password);
       }
     });
+  }
+
+  void signOutFirebase() async {
+    await FirebaseAuth.instance.signOut();
   }
 
   @override
@@ -580,6 +603,46 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           Text(
                             "Ubah foto",
+                            style: TextStyle(
+                              color: Color(0xFF344054),
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  signOutFirebase();
+                  Navigator.pop(context);
+                  Navigator.of(context).push(_createRouteLogin());
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Color(0xFFEAECF0),
+                      ),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: const [
+                          Icon(
+                            Iconsax.logout,
+                            color: Color.fromRGBO(5, 137, 214, 0.7),
+                          ),
+                          SizedBox(
+                            width: 16,
+                          ),
+                          Text(
+                            "Sign out",
                             style: TextStyle(
                               color: Color(0xFF344054),
                               fontSize: 18,

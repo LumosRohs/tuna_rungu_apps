@@ -1,9 +1,31 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:video_player/video_player.dart';
 
-class HurufAngkaPage extends StatelessWidget {
+class HurufAngkaPage extends StatefulWidget {
   const HurufAngkaPage({Key? key}) : super(key: key);
+
+  @override
+  State<HurufAngkaPage> createState() => _HurufAngkaPageState();
+}
+
+class _HurufAngkaPageState extends State<HurufAngkaPage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    _tabController = TabController(length: 2, vsync: this);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _tabController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +69,7 @@ class HurufAngkaPage extends StatelessWidget {
                 ],
               ),
               const SizedBox(
-                height: 32,
+                height: 16,
               ),
               const Text(
                 "Huruf dan Angka",
@@ -70,11 +92,61 @@ class HurufAngkaPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(
+                height: 16,
+              ),
+              Container(
+                height: 45,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF9FAFB),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                padding: const EdgeInsets.all(4),
+                child: TabBar(
+                  controller: _tabController,
+                  indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color.fromRGBO(16, 24, 40, 0.1),
+                        blurRadius: 3,
+                        offset: Offset(0, 1),
+                      ),
+                      BoxShadow(
+                        color: Color.fromRGBO(16, 24, 40, 0.06),
+                        blurRadius: 2,
+                        offset: Offset(0, 1),
+                      ),
+                    ],
+                  ),
+                  labelStyle: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                  ),
+                  labelColor: const Color(0xFF344054),
+                  unselectedLabelColor: const Color(0xFF667085),
+                  tabs: const [
+                    Tab(
+                      text: 'Huruf',
+                    ),
+                    Tab(
+                      text: 'Angka',
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
                 height: 32,
               ),
-              Flexible(
-                flex: 20,
-                child: HurufdanAngkaContainer(),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.58,
+                child: TabBarView(
+                  controller: _tabController,
+                  children: const [
+                    HurufContainer(),
+                    AngkaContainer(),
+                  ],
+                ),
               ),
             ],
           ),
@@ -84,36 +156,26 @@ class HurufAngkaPage extends StatelessWidget {
   }
 }
 
-class HurufdanAngkaContainer extends StatelessWidget {
-  HurufdanAngkaContainer({Key? key}) : super(key: key);
-
-  final List<Map> myList = [
-    {"name": "Huruf Y"},
-    {"name": "Huruf Z"},
-    {"name": "Huruf A"},
-    {"name": "Huruf B"},
-    {"name": "Huruf C"},
-    {"name": "Huruf D"},
-  ];
+class HurufContainer extends StatelessWidget {
+  const HurufContainer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    CollectionReference hurufdanangka = db.collection('hurufdanangka');
+    CollectionReference abjad = db.collection('abjad');
 
     return FutureBuilder<QuerySnapshot>(
-      future: hurufdanangka.get(),
+      future: abjad.get(),
       builder: (_, snapshot) {
         if (!snapshot.hasData) {
-          return const Center(child: Text('Loading events...'));
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
-        return GridView.builder(
-          scrollDirection: Axis.vertical,
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 250,
-              childAspectRatio: 3 / 4,
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 10),
+        return AlignedGridView.count(
+          crossAxisCount: 2,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 20,
           itemCount: snapshot.data!.docs.length,
           itemBuilder: (BuildContext ctx, index) {
             return InkWell(
@@ -127,17 +189,18 @@ class HurufdanAngkaContainer extends StatelessWidget {
                       children: [
                         Image(
                           fit: BoxFit.fill,
-                          image: snapshot.data?.docs[index]['url'] == ""
+                          image: snapshot.data?.docs[index]['link'] == ""
                               ? const AssetImage(
                                       'assets/images/image-dummy.png')
                                   as ImageProvider
-                              : NetworkImage(snapshot.data?.docs[index]['url']),
+                              : NetworkImage(
+                                  snapshot.data?.docs[index]['link']),
                         ),
                         const SizedBox(
                           height: 24,
                         ),
                         Text(
-                          snapshot.data?.docs[index]['name'],
+                          'Huruf ' + snapshot.data?.docs[index]['abjad'],
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             color: Color(0xFF1D2939),
@@ -187,7 +250,7 @@ class HurufdanAngkaContainer extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                    height: 170,
+                    height: 160,
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(12),
@@ -197,11 +260,11 @@ class HurufdanAngkaContainer extends StatelessWidget {
                         color: const Color(0xFFEAECF0),
                       ),
                       image: DecorationImage(
-                        fit: BoxFit.scaleDown,
-                        image: snapshot.data?.docs[index]['url'] == ""
+                        fit: BoxFit.fill,
+                        image: snapshot.data?.docs[index]['link'] == ""
                             ? const AssetImage('assets/images/image-dummy.png')
                                 as ImageProvider
-                            : NetworkImage(snapshot.data?.docs[index]['url']),
+                            : NetworkImage(snapshot.data?.docs[index]['link']),
                       ),
                     ),
                   ),
@@ -218,7 +281,7 @@ class HurufdanAngkaContainer extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      snapshot.data?.docs[index]['name'],
+                      'Huruf ' + snapshot.data?.docs[index]['abjad'],
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Color(0xFF1D2939),
@@ -237,5 +300,188 @@ class HurufdanAngkaContainer extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+class AngkaContainer extends StatelessWidget {
+  const AngkaContainer({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    CollectionReference angka = db.collection('angka');
+
+    return FutureBuilder<QuerySnapshot>(
+      future: angka.get(),
+      builder: (_, snapshot) {
+        if (!snapshot.hasData) {
+          return const Center(child: Text('Loading events...'));
+        }
+        return AlignedGridView.count(
+          crossAxisCount: 2,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 20,
+          itemCount: snapshot.data!.docs.length,
+          itemBuilder: (BuildContext ctx, index) {
+            return InkWell(
+              onTap: () => showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  content: VideoPop(
+                    linkVideo: snapshot.data?.docs[index]['link'],
+                    namaVideo: snapshot.data?.docs[index]['angka'],
+                  ),
+                ),
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    height: 160,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12),
+                      ),
+                      border: Border.all(
+                        color: const Color(0xFFEAECF0),
+                      ),
+                      image: const DecorationImage(
+                        fit: BoxFit.fill,
+                        image: NetworkImage(
+                            'https://firebasestorage.googleapis.com/v0/b/imk-kel-1.appspot.com/o/angka%2Fthumbnail.png?alt=media&token=ecd82839-359b-47a0-ab28-8839c755812f'),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(12),
+                        bottomRight: Radius.circular(12),
+                      ),
+                      border: Border.all(
+                        color: const Color(0xFFEAECF0),
+                      ),
+                    ),
+                    child: Text(
+                      'Angka ' + snapshot.data?.docs[index]['angka'],
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Color(0xFF1D2939),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class VideoPop extends StatefulWidget {
+  final String linkVideo;
+  final String namaVideo;
+
+  const VideoPop({Key? key, required this.linkVideo, required this.namaVideo})
+      : super(key: key);
+
+  @override
+  State<VideoPop> createState() => _VideoPopState();
+}
+
+class _VideoPopState extends State<VideoPop> {
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.network(widget.linkVideo);
+
+    _controller.addListener(() {
+      setState(() {});
+    });
+    _controller.setLooping(true);
+    _controller.initialize();
+    _controller.play();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          AspectRatio(
+            aspectRatio: _controller.value.aspectRatio,
+            child: Stack(
+              children: <Widget>[
+                VideoPlayer(_controller),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          Text(
+            widget.namaVideo,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Color(0xFF1D2939),
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                color: const Color(0xFFFFFFFF),
+                border: Border.all(
+                  color: const Color(0xFFD0D5DD),
+                ),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color.fromRGBO(16, 24, 40, 0.05),
+                    blurRadius: 2,
+                    offset: Offset(0, 1),
+                  ),
+                ],
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+              child: const Text(
+                "Keluar",
+                style: TextStyle(
+                  color: Color(0xFF344054),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 }

@@ -1,6 +1,6 @@
 # tuna_rungu_apps
 
-Flutter Project for college assignments.
+This is a project for our university assignments, the purpose of the app is to assist users with hearing and speech impairments. 
 
 ## How to run
 

@@ -22,10 +22,13 @@ Route _createRoute() {
   );
 }
 
-Route _createRouteProfile() {
+Route _createRouteProfile(String displayName, String email, String photoURL) {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) =>
-        const ProfilePage(),
+    pageBuilder: (context, animation, secondaryAnimation) => ProfilePage(
+      displayName: displayName,
+      email: email,
+      photoURL: photoURL,
+    ),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(1.0, 0.0);
       const end = Offset.zero;
@@ -61,7 +64,16 @@ Route _createRouteKataIsyarat() {
 }
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final String displayName;
+  final String email;
+  final String photoURL;
+
+  const HomePage(
+      {Key? key,
+      required this.displayName,
+      required this.email,
+      required this.photoURL})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -88,9 +100,9 @@ class HomePage extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text(
-                                "Halo, Lingga",
-                                style: TextStyle(
+                              Text(
+                                "Halo, ${displayName.toString()}",
+                                style: const TextStyle(
                                   color: Color(0xFFF2F4F7),
                                   fontSize: 16,
                                 ),
@@ -98,12 +110,23 @@ class HomePage extends StatelessWidget {
                               InkWell(
                                 onTap: () {
                                   Navigator.of(context)
-                                      .push(_createRouteProfile());
+                                      .push(_createRouteProfile(
+                                    displayName,
+                                    email,
+                                    photoURL,
+                                  ));
                                 },
-                                child: const CircleAvatar(
-                                  backgroundColor: Color(0xFFFFFCF2),
-                                  foregroundColor: Color(0xFFDB8818),
-                                  child: Text('LR'),
+                                child: CircleAvatar(
+                                  backgroundColor: const Color(0xFFFFFCF2),
+                                  foregroundColor: const Color(0xFFDB8818),
+                                  child: photoURL == ""
+                                      ? const Text(
+                                          'LR',
+                                        )
+                                      : Image.network(
+                                          photoURL,
+                                          fit: BoxFit.fill,
+                                        ),
                                 ),
                               ),
                             ],

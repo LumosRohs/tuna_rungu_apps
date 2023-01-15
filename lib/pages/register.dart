@@ -341,7 +341,7 @@ class _RegisterState extends State<Register> {
 
       if (credential.additionalUserInfo?.isNewUser == true) {
         setState(() {
-          _msg = "Akun terdaftar, silahkan tunggu beberapa detik...";
+          _msg = "Akun berhasil didaftarkan, silahkan tunggu beberapa detik...";
           Timer(const Duration(seconds: 3), () {
             Navigator.of(context).push(_createRoute());
           });

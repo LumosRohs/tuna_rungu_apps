@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tuna_rungu_apps/pages/hurufangka.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:tuna_rungu_apps/pages/imbuhan.dart';
+import 'package:tuna_rungu_apps/pages/kosakata.dart';
 import 'package:tuna_rungu_apps/pages/profile.dart';
+import 'package:tuna_rungu_apps/pages/tambahkata.dart';
 
 Route _createRoute() {
   return PageRouteBuilder(
@@ -47,7 +50,44 @@ Route _createRouteProfile(String displayName, String email, String photoURL) {
 Route _createRouteKataIsyarat() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) =>
-        const HurufAngkaPage(),
+        const KosakataPage(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
+
+Route _createRouteImbuhan() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) =>
+        const ImbuhanPage(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
+      const curve = Curves.ease;
+
+      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+      return SlideTransition(
+        position: animation.drive(tween),
+        child: child,
+      );
+    },
+  );
+}
+
+Route _createRouteTambahKata() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => TambahKataPage(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(1.0, 0.0);
       const end = Offset.zero;
@@ -503,7 +543,7 @@ class HomePage extends StatelessWidget {
                                     child: Column(
                                       children: const [
                                         Icon(
-                                          Iconsax.message_question5,
+                                          Iconsax.element_plus5,
                                           color:
                                               Color.fromRGBO(219, 136, 24, 0.4),
                                         ),
@@ -516,7 +556,7 @@ class HomePage extends StatelessWidget {
                                   const SizedBox(
                                     width: 100,
                                     child: Text(
-                                      "Tebak Kata",
+                                      "Kata Imbuhan",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Color(0xFF1D2939),
@@ -529,7 +569,10 @@ class HomePage extends StatelessWidget {
                                     height: 16,
                                   ),
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .push(_createRouteImbuhan());
+                                    },
                                     child: Container(
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(12),
@@ -643,7 +686,10 @@ class HomePage extends StatelessWidget {
                                     height: 16,
                                   ),
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.of(context)
+                                          .push(_createRouteTambahKata());
+                                    },
                                     child: Container(
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(12),

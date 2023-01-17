@@ -84,7 +84,7 @@ class _HurufAngkaPageState extends State<HurufAngkaPage>
               ),
               const Flexible(
                 child: Text(
-                  "Belajar bahasa isyarat huruf dan angka dengan gambar tutorial",
+                  "Belajar bahasa isyarat huruf dan angka dengan gambar dan video tutorial",
                   style: TextStyle(
                     color: Color(0xFF667085),
                     fontSize: 14,
@@ -315,7 +315,9 @@ class AngkaContainer extends StatelessWidget {
       future: angka.get(),
       builder: (_, snapshot) {
         if (!snapshot.hasData) {
-          return const Center(child: Text('Loading events...'));
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         }
         return AlignedGridView.count(
           crossAxisCount: 2,
